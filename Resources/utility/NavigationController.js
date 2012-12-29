@@ -44,7 +44,7 @@ NavigationController.prototype.open = function(/*Ti.UI.Window*/windowToOpen) {
 		
 			Ti.API.log("End event 'close'. Stack: " + that.windowStack.map(function(v) {return v.title}));
 		} // end if windowStack.length > 1, and end of my hack
-	});
+	}); // end eventListener 'close'
 	
 	windowToOpen.addEventListener('set.to.close', function(dict) {
 		Ti.API.log("Event 'set.to.close': " + this.title);
@@ -85,7 +85,7 @@ NavigationController.prototype.open = function(/*Ti.UI.Window*/windowToOpen) {
 		}
 	}
 	Ti.API.log("End Open. Stack: " + this.windowStack.map(function(v) {return v.title}));
-};
+}; // end of open function
 
 //go back to the initial window of the NavigationController
 NavigationController.prototype.home = function() {
