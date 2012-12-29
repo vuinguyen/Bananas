@@ -2,14 +2,20 @@
  * @author Vui Nguyen
  */
 //function ListGroup(parentWin, title, Window, controller) {
-function ListGroup(title, Window, controller) {
+//function ListGroup(title, Window, controller) {
+function ListGroup(title, controller) {
 //function ListGroup(title, Window) {
 	//var NavigationController = require('ui/common/NavigationController');
 	//controller = new NavigationController();
-	
+	/*
 	var bananaWindow = new Window(title);
 	var bananaCreamPieWindow = new Window('Banana Cream Pie');
 	var bananaPricesWindow = new Window('Prices');
+	*/
+	
+	var bananaWindow = controller.createWindow(title);
+	var bananaCreamPieWindow = controller.createWindow('Banana Cream Pie');
+	var bananaPricesWindow = controller.createWindow('Prices');
 	//var bananaWindow = Ti.UI.createWindow({
 	//	title:title,
 	//	backgroundColor:'white'

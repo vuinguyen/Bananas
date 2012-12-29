@@ -1,4 +1,4 @@
-TestWindow = function(navController) {
+function TestWindow(navController) {
 	var win = Ti.UI.createWindow({
 		title:(navController.windowStack.length == 0) ? 'Window 1' : 'Window '+ navController.windowStack.length,
 		backgroundColor:'#fff',

@@ -1,8 +1,7 @@
 (function() {
 
-	var NavigationController = require('utility/NavigationController'),
-	TestWindow = require('ui/common/TestWindow');
-	TableWindow = require('ui/common/TableWindow');
+	var NavigationController = require('utility/NavigationController');
+	var TableWindow = require('ui/common/TableWindow');
 
 	//determine platform and form factor and render approproate components
 	var osname = Ti.Platform.osname,
@@ -42,12 +41,11 @@
 	}
 	
 	
-//create NavigationController which will drive our simple application
-	var controller = new NavigationController();
-
+//create NavigationController which will drive our application
+	var controller = new NavigationController(Window);
+	
 //open initial window
-//controller.open(new TestWindow(controller));
-	controller.open(new TableWindow(Window, controller));
+	controller.open(new TableWindow(controller));
 })();
 
 

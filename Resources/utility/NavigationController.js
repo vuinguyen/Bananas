@@ -1,6 +1,13 @@
-function NavigationController() {
+function NavigationController(inputWindowType) {
 	this.windowStack = [];
+	this.windowType = (inputWindowType) ? inputWindowType: require('/ui/handheld/ios/ApplicationWindow');
 };
+
+NavigationController.prototype.createWindow = function(inputTitle) {
+	var title = (inputTitle) ? (inputTitle): '';
+	var Window = this.windowType;
+	return new Window(title, this);
+}
 
 NavigationController.prototype.open = function(/*Ti.UI.Window*/windowToOpen) {
 	Ti.API.log("Open function.");
@@ -13,27 +20,29 @@ NavigationController.prototype.open = function(/*Ti.UI.Window*/windowToOpen) {
 	windowToOpen.addEventListener('close', function() {
 		if (that.windowStack.length > 1) // don't pop the last Window, which is the base one
 		{
-		Ti.API.log("Event 'close': " + this.title);
-		var popped = that.windowStack.pop();
+			Ti.API.log("Event 'close': " + this.title);
+			var popped = that.windowStack.pop();
 		
-		if (lastPushed != popped)
-		{
-			Ti.API.info("Last window should NOT have been popped. Push it back on the stack!");
-			that.windowStack.push(popped);
-		}
-		// close dependent window ?
-		if (this.toClose) {
-			 Ti.API.log("Invoke close on dependent window:" + this.toClose.title);
-			 // close "parent" window, do not use animation (it looks wierd with animation)
-			 (that.navGroup) ? that.navGroup.close(this.toClose, {animated : false}) : this.toClose.close();
-		}
-		// open dependent window ?
-		if (this.toOpen) {
-			Ti.API.log("Invoke open on dependent window:" + this.toOpen.title);
-			 that.open(this.toOpen);
-		} 
+			if (lastPushed != popped)
+			{
+				Ti.API.info("Last window should NOT have been popped. Push it back on the stack!");
+				that.windowStack.push(popped);
+			}
+			
+			// close dependent window ?
+			if (this.toClose) {
+				Ti.API.log("Invoke close on dependent window:" + this.toClose.title);
+			 	// close "parent" window, do not use animation (it looks weird with animation)
+			 	(that.navGroup) ? that.navGroup.close(this.toClose, {animated : false}) : this.toClose.close({animated:false});
+			}
+			
+			// open dependent window ?
+			if (this.toOpen) {
+				Ti.API.log("Invoke open on dependent window:" + this.toOpen.title);
+			 	that.open(this.toOpen);
+			} 
 		
-		Ti.API.log("End event 'close'. Stack: " + that.windowStack.map(function(v) {return v.title}));
+			Ti.API.log("End event 'close'. Stack: " + that.windowStack.map(function(v) {return v.title}));
 		} // end if windowStack.length > 1, and end of my hack
 	});
 	
@@ -59,8 +68,11 @@ NavigationController.prototype.open = function(/*Ti.UI.Window*/windowToOpen) {
 			this.navGroup = Ti.UI.iPhone.createNavigationGroup({
 				window : windowToOpen
 			});
-			var containerWindow = Ti.UI.createWindow();
+			
+			// let's use the NavigationController's createWindow function to create a window here
+			var containerWindow = this.createWindow(windowToOpen.title);
 			containerWindow.add(this.navGroup);
+			Ti.API.info('First window opened is ' + containerWindow.title + '\n');
 			containerWindow.open();
 		}
 	}
@@ -76,7 +88,6 @@ NavigationController.prototype.open = function(/*Ti.UI.Window*/windowToOpen) {
 };
 
 //go back to the initial window of the NavigationController
-//exports.NavigationController.prototype.home = function() {
 NavigationController.prototype.home = function() {
 	Ti.API.log("Home function.");
 	if (this.windowStack.length > 1) {
@@ -92,7 +103,6 @@ NavigationController.prototype.home = function() {
 	Ti.API.log("End Home. Stack: " + this.windowStack.map(function(v) {return v.title}));
 };
 
-//exports.NavigationController.prototype.openFromHome = function(windowToOpen) {
 NavigationController.prototype.openFromHome = function(windowToOpen) {
 	Ti.API.log("openFromHome function.");
 	if(this.windowStack.length == 1)
