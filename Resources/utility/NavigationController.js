@@ -6,7 +6,7 @@ function NavigationController(inputWindowType) {
 NavigationController.prototype.createWindow = function(inputTitle) {
 	var title = (inputTitle) ? (inputTitle): '';
 	var Window = this.windowType;
-	return new Window(title, this);
+	return new Window(title);
 }
 
 NavigationController.prototype.open = function(/*Ti.UI.Window*/windowToOpen) {
