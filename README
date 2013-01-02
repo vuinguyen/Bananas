@@ -1,9 +1,15 @@
-Welcome to your Appcelerator Titanium Mobile Project
+This is a sample app that uses the 2013 version of the Ti-Navigation-Controller that I built, at
+https://github.com/vuinguyen/NavController (with a couple of mods for this project).
 
-This is a blank project.  Start by editing your application's app.js to 
-make your first mobile project using Titanium.
+It is a complex, master-detail app that opens on a single screen, and goes several levels deep
+for some of the items in the list.
 
+As this is an open source project, I may not have time to update this often. 
+But please feel free to fork from this project and make your own improvements. 
+If you do so, I'd love to hear from you (and so would the rest of my blog readers, as this would help everyone! :) )
 
+Please add your comments to my blog at: 
+www.sunfishempire.com
 
 ----------------------------------
 Stuff our legal folk make us say:
